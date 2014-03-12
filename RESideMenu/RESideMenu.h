@@ -47,6 +47,10 @@
 @property (assign, readwrite, nonatomic) BOOL parallaxEnabled;
 @property (assign, readwrite, nonatomic) BOOL bouncesHorizontally;
 
+@property (assign, readwrite, nonatomic) CGFloat springVelocity;
+@property (assign, readwrite, nonatomic) CGFloat springDamping;
+@property (assign, readwrite, nonatomic) BOOL springEnabled;
+
 @property (strong, readwrite, nonatomic) UIViewController *contentViewController;
 @property (strong, readwrite, nonatomic) UIViewController *menuViewController;
 
@@ -55,6 +59,7 @@
 - (id)initWithContentViewController:(UIViewController *)contentViewController menuViewController:(UIViewController *)menuViewController;
 - (void)setContentViewController:(UIViewController *)contentViewController animated:(BOOL)animated;
 - (void)presentMenuViewController;
+- (void)presentMenuViewControllerWithCompletion:(void(^)(BOOL complete))completionBlock;
 - (void)hideMenuViewController;
 
 @end

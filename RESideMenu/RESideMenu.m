@@ -79,6 +79,11 @@
     _springEnabled = YES;
     _springDamping = 0.7;
     _springVelocity = 0.3;
+    _contentViewShadowEnabled = NO;
+    _contentViewShadowColor = [UIColor blackColor];
+    _contentViewShadowOffset = CGSizeZero;
+    _contentViewShadowOpacity = 0.4f;
+    _contentViewShadowRadius = 8.0f;
 }
 
 - (id)initWithContentViewController:(UIViewController *)contentViewController menuViewController:(UIViewController *)menuViewController
@@ -134,6 +139,16 @@
         UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)];
         panGestureRecognizer.delegate = self;
         [self.view addGestureRecognizer:panGestureRecognizer];
+    }
+    
+    if (self.contentViewShadowEnabled) {
+        CALayer *layer = self.contentViewController.view.layer;
+        UIBezierPath *path = [UIBezierPath bezierPathWithRect:layer.bounds];
+        layer.shadowPath = path.CGPath;
+        layer.shadowColor = self.contentViewShadowColor.CGColor;
+        layer.shadowOffset = self.contentViewShadowOffset;
+        layer.shadowOpacity = self.contentViewShadowOpacity;
+        layer.shadowRadius = self.contentViewShadowRadius;
     }
 }
 
@@ -741,7 +756,9 @@
     contentViewController.view.transform = transform;
     contentViewController.view.frame = frame;
     
-    [self addContentViewControllerMotionEffects];
+    if(self.visible) {
+        [self addContentViewControllerMotionEffects];
+    }
 }
 
 - (void)setContentViewController:(UIViewController *)contentViewController animated:(BOOL)animated
